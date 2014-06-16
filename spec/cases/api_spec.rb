@@ -126,6 +126,11 @@ describe LinkedIn::Api do
       client.company(:domain => 'acme.com').should be_an_instance_of(LinkedIn::Mash)
     end
 
+    it "should be able to view a companies by ids" do
+      stub_request(:get, "https://api.linkedin.com/v1/companies::(1,2)?oauth2_access_token=#{client.access_token.token}").to_return(:body => "{}")
+      client.company(:id => [1,2]).should be_an_instance_of(LinkedIn::Mash)
+    end
+
     it "should load correct company data" do
       client.company(:id => 1586).name.should == "Amazon"
 
